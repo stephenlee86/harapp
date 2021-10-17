@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.tensorflow.lite.examples.transfer.api.TransferLearningModel.Prediction;
+import org.tensorflow.lite.examples.transfer.api.TransferLearningModel;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -120,7 +120,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
     mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_FASTEST);
     mSensorManager.registerListener(this, mGyroscope, SensorManager.SENSOR_DELAY_FASTEST);
-    tlModel = new TransferLearningModelWrapper(getApplicationContext());
+    try{
+      tlModel = null; //new TransferLearningModelWrapper(getApplicationContext());
+    } catch (IllegalStateException e) {
+      Log.e (e.toString (), e.getMessage ());
+    }
 
     optionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
@@ -201,7 +205,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         optionSpinner.setEnabled(true);
         isRunning = false;
         if(mode == Mode.Training){
-          tlModel.disableTraining();
+          if (tlModel != null) {
+            tlModel.disableTraining();
+          }
           // Uncomment following lines to save the model.
           /*
             File modelPath = getApplicationContext().getFilesDir();
@@ -233,7 +239,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Log.d (log_tag + log_count, "executing onDestroy method");
     log_count += 1;
     super.onDestroy();
-    tlModel.close();
+    if (tlModel != null) {
+      tlModel.close();
+    }
     tlModel = null;
     mSensorManager = null;
   }
@@ -284,16 +292,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
       if (isRunning){
         if(mode == Mode.Training){
-          int batchSize = tlModel.getTrainBatchSize();
+          int batchSize = 0;
+          if (tlModel != null) {
+            batchSize = tlModel.getTrainBatchSize();
+          }
           if(classAInstanceCount >= batchSize && classBInstanceCount >= batchSize){
-            tlModel.enableTraining((epoch, loss) -> runOnUiThread(new Runnable() {
-              @Override
-              public void run() {
-                Log.d (log_tag + log_count, "executing run method");
-                log_count += 1;
-                lossValueTextView.setText(Float.toString(loss));
-              }
-            }));
+            if (tlModel != null) {
+              tlModel.enableTraining((epoch, loss) -> runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  Log.d(log_tag + log_count, "executing run method");
+                  log_count += 1;
+                  lossValueTextView.setText(Float.toString(loss));
+                }
+              }));
+            }
           }
           else{
             String message = batchSize + " instances per class are required for training.";
@@ -303,8 +316,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         }
         else if (mode == Mode.Data_Collection){
-          tlModel.addSample(input, classId);
-
+          if (tlModel != null) {
+            tlModel.addSample(input, classId);
+          }
           if (classId.equals("Class A")) classAInstanceCount += 1;
           else if(classId.equals("Class B")) classBInstanceCount += 1;
 
@@ -312,7 +326,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
           classBInstanceCountTextView.setText(Integer.toString(classBInstanceCount));
         }
         else if (mode == Mode.Inference) {
-          Prediction[] predictions = tlModel.predict(input);
+          TransferLearningModel.Prediction[] predictions = null;
+          if (tlModel != null) {
+            predictions = tlModel.predict(input);
+          }
           // Vibrate the phone if Class B is detected.
           if(predictions[1].getConfidence() > VB_THRESHOLD)
             vibrator.vibrate(VibrationEffect.createOneShot(200,
