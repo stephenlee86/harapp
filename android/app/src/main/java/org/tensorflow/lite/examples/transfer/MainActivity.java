@@ -3,6 +3,7 @@ package org.tensorflow.lite.examples.transfer;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -26,6 +27,16 @@ import android.os.Vibrator;
 import android.widget.Toast;
 import android.util.Log;
 
+import android.graphics.*;
+import com.androidplot.util.PixelUtils;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYSeries;
+import com.androidplot.xy.*;
+
+import java.text.FieldPosition;
+import java.text.Format;
+import java.text.ParsePosition;
+import java.util.*;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener  {
   static final String log_tag = "MainActivityClass";
@@ -41,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
   Button startButton;
   Button stopButton;
+  Button displayGraphButton;
   TextView classATextView;
   TextView classBTextView;
   TextView classAInstanceCountTextView;
@@ -49,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
   Spinner optionSpinner;
   Spinner classSpinner;
   Vibrator vibrator;
+  Intent intent;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -59,9 +72,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     setContentView(R.layout.activity_main);
 
     vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-
+    intent = new Intent (MainActivity.this, GraphView.class);
     startButton = (Button) findViewById(R.id.buttonStart);
     stopButton = (Button) findViewById(R.id.buttonStop);
+    displayGraphButton = (Button) findViewById(R.id.buttonGraph);
     stopButton.setEnabled(false);
 
     classATextView = (TextView)findViewById(R.id.classAOutputValueTextView);
@@ -98,7 +112,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
       Log.e (e.toString (), e.getMessage ());
     }
 
-    sensorData = new SensorData (400);
+    ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
+    sensorData = app.loadSensorData("sensor.dat");
 
     optionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
@@ -192,6 +207,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
       }
     });
+
+    displayGraphButton.setOnClickListener( new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Log.d(log_tag + log_count, "executing onClick method for display of graph");
+        log_count += 1;
+        displayGraphButton.setEnabled(false);
+        activityRecognizer.setIsGraphing (true);
+      }
+    });
   }
 
   protected void onPause() {
@@ -227,16 +252,26 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //    log_count += 1;
     switch (event.sensor.getType()) {
       case Sensor.TYPE_ACCELEROMETER:
-        sensorData.addAccelEvent (event.values[0], event.values[1], event.values[2]);
+        sensorData.addAccelEvent (event.values[0], event.values[1], event.values[2], event.timestamp);
         break;
       case Sensor.TYPE_GYROSCOPE:
-        sensorData.addGyroEvent (event.values[0], event.values[1], event.values[2]);
+        sensorData.addGyroEvent (event.values[0], event.values[1], event.values[2], event.timestamp);
         break;
     }
 
     //Check if we have desired number of samples for sensors, if yes, the process input.
-    if(sensorData.checkSampleCount ())
+    if(sensorData.checkSampleCount ()) {
+      if (activityRecognizer.getIsGraphing ()) {
+        ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
+        app.saveSensorData(sensorData, "sensor.dat");
+        startActivity (intent);
+// leaving out the finish call for now just in case calling finish is not necessary here and just in case calling finish loses the current state of the main activity
+//        finish ();
+      }
       processInput();
+      activityRecognizer.setIsGraphing (false);
+      displayGraphButton.setEnabled(true);
+    }
   }
 
   @Override
