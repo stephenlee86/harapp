@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
   Sensor mAccelerometer;
   Sensor mGyroscope;
 
+  Button viewprivacyButton;
+  Button editprivacyButton;
   Button startButton;
   Button stopButton;
   Button displayGraphButton;
@@ -71,12 +74,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     activityRecognizer = new ActivityRecognizer ("ar_model", 0.75);
     setContentView(R.layout.activity_main);
 
+
     vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     intent = new Intent (MainActivity.this, GraphView.class);
     startButton = (Button) findViewById(R.id.buttonStart);
     stopButton = (Button) findViewById(R.id.buttonStop);
+    viewprivacyButton = (Button) findViewById(R.id.viewPrivacyConcerns);
+    editprivacyButton = (Button) findViewById(R.id.editPrivacyData);
     displayGraphButton = (Button) findViewById(R.id.buttonGraph);
     stopButton.setEnabled(false);
+
+    SharedPreferences settings = getSharedPreferences("DataPreferences", 0);
+    String age_data = settings.getString("AgePreference", "DefaultValueIfNotExists");
+    String gender_data = settings.getString("GenderPreference", "DefaultValueIfNotExists");
+    String height_data = settings.getString("HeightPreference", "DefaultValueIfNotExists");
+    String weight_data = settings.getString("WeightPreference", "DefaultValueIfNotExists");
+
+
 
     classATextView = (TextView)findViewById(R.id.classAOutputValueTextView);
     classBTextView = (TextView)findViewById(R.id.classBOutputValueTextView);
@@ -159,6 +173,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Log.d(log_tag + log_count, "executing onNothingSelected method with no class ID assigned");
         log_count += 1;
         // TODO Auto-generated method stub
+      }
+    });
+
+    viewprivacyButton.setOnClickListener( new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        PopUp popUpClass = new PopUp();
+        popUpClass.showPopupWindow(view);
+      }
+
+    });
+
+
+    editprivacyButton.setOnClickListener( new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent i = new Intent(getApplicationContext(),ChangePrivacy.class);
+        startActivity(i);
       }
     });
 
