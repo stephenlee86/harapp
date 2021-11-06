@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_fill"
+    android:orientation="vertical"
+    android:paddingLeft="5dp"
+    android:paddingTop="10dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="10dp"
+    tools:context="org.tensorflow.lite.examples.transfer.MainActivity">
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="0"
+        app:srcCompat="@drawable/ic_logo"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:text="@string/logo_title"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:fontFamily="@font/titillium_web"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:text="@string/privacy_title"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:fontFamily="@font/titillium_web"
+        android:layout_marginBottom="10dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="219dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="7dp"
+        android:paddingLeft="5dp"
+        android:paddingTop="8dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="8dp"
+        app:cardBackgroundColor="@android:color/white"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/AgeSwitch"
+            android:layout_width="210dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:checked="true"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:switchMinWidth="56dp"
+            android:text="@string/Age"
+            android:textColor="@color/colorPrimaryDark"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/ageTextBox"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_your_age_here"
+
+                /><!--display the hint-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        <Switch
+            android:id="@+id/GenderSwitch"
+            android:layout_width="210dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="50dp"
+            android:checked="true"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:switchMinWidth="56dp"
+            android:text="@string/Gender"
+            android:textColor="@color/colorPrimaryDark"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/genderTextBox"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_your_gender_here"
+                android:layout_marginTop="50dp"/><!--display the hint-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+        <Switch
+            android:id="@+id/HeightSwitch"
+            android:layout_width="210dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="100dp"
+            android:checked="true"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:switchMinWidth="56dp"
+            android:text="@string/Height"
+            android:textColor="@color/colorPrimaryDark"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/heightTextBox"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_your_height_here"
+                android:layout_marginTop="100dp"/><!--display the hint-->
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+        <Switch
+            android:id="@+id/WeightSwitch"
+            android:layout_width="210dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="150dp"
+            android:checked="true"
+            android:scaleX="1"
+            android:scaleY="1"
+            android:switchMinWidth="56dp"
+            android:text="@string/Weight"
+            android:textColor="@color/colorPrimaryDark"
+            android:textOff="@string/off"
+            android:textOn="@string/on"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/weightTextBox"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="150dp"
+                android:hint="@string/enter_your_weight_here" /><!--display the hint-->
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/saveBtn"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/save_changes" />
+
+        <Button
+            android:id="@+id/returnBtn"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:text="@string/return_to_main" />
+    </LinearLayout>
+</LinearLayout>

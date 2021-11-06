@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/DataReleased"
+                android:layout_width="295dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:text="@string/data_released"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/age"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/Age"
+                        android:textColor="@android:color/black"
+                        app:fontFamily="@font/titillium_web"
+                        tools:text="Age"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/Gender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/Gender"
+                        android:textColor="@android:color/black"
+                        app:fontFamily="@font/titillium_web"
+                        tools:text="Gender"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/height"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/Height"
+                        android:textColor="@android:color/black"
+                        app:fontFamily="@font/titillium_web"
+                        tools:text="Height"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/weight"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:text="@string/Weight"
+                        android:textColor="@android:color/black"
+                        app:fontFamily="@font/titillium_web"
+                        tools:text="Weight"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                </TableRow>
+
+            </TableLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/okayButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:text="@string/Okay" />
+
+                <!--<Button
+                    android:id="@+id/cancelButton"
+                    android:layout_width="149dp"
+                    android:layout_height="match_parent"
+                    android:text="@string/Cancel" /> -->
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
