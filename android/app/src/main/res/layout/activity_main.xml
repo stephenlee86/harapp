@@ -92,6 +92,36 @@
                     android:textStyle="bold"
                     app:fontFamily="@font/titillium_web" />
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/viewPrivacyConcerns"
+                        android:layout_width="194dp"
+                        android:layout_height="25dp"
+                        android:background="@android:color/transparent"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:text="@string/view_privacy"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        app:fontFamily="@font/titillium_web"
+                        tools:text="View Privacy Concerns" />
+
+                    <Button
+                        android:id="@+id/editPrivacyData"
+                        android:layout_width="194dp"
+                        android:layout_height="25dp"
+                        android:background="@android:color/transparent"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:text="@string/editprivacydata"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold"
+                        app:fontFamily="@font/titillium_web"
+                        tools:text="Edit Privacy Data" />
+                </LinearLayout>
+
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
