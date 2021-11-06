@@ -29,6 +29,12 @@
         android:exported="true"
         android:screenOrientation="portrait">
     </activity>
+      
+      <activity
+        android:name="org.tensorflow.lite.examples.transfer.ChangePrivacy"
+        android:exported="true"
+        android:screenOrientation="portrait">
+    </activity>
   </application>
 
 </manifest>
