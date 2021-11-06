@@ -19,6 +19,39 @@
 
   <string name="zero_value">0.0</string>
 
+  <!-- DORIAN STRINGS -->
+
+  <string name="Add_Class">Add_Class</string>
+  <string name="Remove_Class">Remove_Class</string>
+  <string name="textButton">textButton</string>
+  <string name="textTitle">textTitle</string>
+  <string name="Okay">Okay</string>
+  <string name="Cancel">Cancel</string>
+  <string name="view_Privacy">View Privacy</string>
+  <string name="view_privacy">View Privacy</string>
+  <string name="editprivacydata">Edit Privacy Data</string>
+  <string name="Data_Released">Data Released</string>
+  <string name="age_data">age_data</string>
+  <string name="gender_data">gender_data</string>
+  <string name="Gender">Gender</string>
+  <string name="Age">Age</string>
+  <string name="Height">Height</string>
+  <string name="Weight">Weight</string>
+  <string name="data_released">Data Released</string>
+  <string name="privacy_title">Edit Privacy Settings</string>
+  <string name="off">OFF</string>
+  <string name="on">ON</string>
+  <string name="save_changes">Save Changes</string>
+  <string name="return_to_main">Return To Main</string>
+  <string name="enter_your_age_here">Enter Your Age Here</string>
+  <string name="enter_your_height_here">Enter Your Height Here</string>
+  <string name="enter_your_weight_here">Enter Your Weight Here</string>
+  <string name="enter_your_gender_here">Enter Your Gender Here</string>
+
+  <!-- DORIAN STRINGS -->
+
+
+
   <string-array name="options_array">
     <item>Data Collection</item>
     <item>Training</item>
