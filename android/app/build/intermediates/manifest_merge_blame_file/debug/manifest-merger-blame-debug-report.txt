@@ -1,0 +1,105 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="org.tensorflow.lite.examples.transfer"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+8-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml
+10
+11    <uses-feature
+11-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:5:3-96
+12        android:name="android.hardware.sensor.accelerometer"
+12-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:5:17-69
+13        android:required="true" />
+13-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:5:70-93
+14    <uses-feature
+14-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:6:3-92
+15        android:name="android.hardware.sensor.gyroscope"
+15-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:6:17-65
+16        android:required="true" />
+16-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:6:66-89
+17
+18    <uses-permission android:name="android.permission.VIBRATE" />
+18-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:7:3-63
+18-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:7:20-61
+19    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+19-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:8:3-78
+19-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:8:20-76
+20    <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
+20-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:9:3-82
+20-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:9:20-80
+21
+22    <application
+22-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:11:3-38:17
+23        android:name="org.tensorflow.lite.examples.transfer.ActivityRecognitionApplication"
+23-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:12:7-53
+24        android:allowBackup="true"
+24-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:13:7-33
+25        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+25-->[androidx.core:core:1.1.0] C:\Users\mattr\.gradle\caches\transforms-3\4afd4f5f390f2998f1a06307e306af63\transformed\core-1.1.0\AndroidManifest.xml:24:18-86
+26        android:configChanges="orientation"
+26-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:14:7-42
+27        android:debuggable="true"
+28        android:extractNativeLibs="false"
+29        android:icon="@drawable/ic_launcher"
+29-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:15:7-43
+30        android:label="@string/app_name"
+30-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:16:7-39
+31        android:testOnly="true"
+32        android:theme="@style/AppTheme" >
+32-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:17:7-38
+33        <activity
+33-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:18:5-26:16
+34            android:name="org.tensorflow.lite.examples.transfer.MainActivity"
+34-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:19:9-74
+35            android:exported="true"
+35-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:20:9-32
+36            android:screenOrientation="portrait" >
+36-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:21:9-45
+37            <intent-filter>
+37-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:22:7-25:23
+38                <action android:name="android.intent.action.MAIN" />
+38-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:23:9-60
+38-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:23:17-58
+39
+40                <category android:name="android.intent.category.LAUNCHER" />
+40-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:24:9-68
+40-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:24:19-66
+41            </intent-filter>
+42        </activity>
+43        <activity
+43-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:27:5-31:16
+44            android:name="org.tensorflow.lite.examples.transfer.GraphView"
+44-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:28:9-71
+45            android:exported="true"
+45-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:29:9-32
+46            android:screenOrientation="portrait" >
+46-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:30:9-45
+47        </activity>
+48        <activity
+48-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:33:7-37:16
+49            android:name="org.tensorflow.lite.examples.transfer.ChangePrivacy"
+49-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:34:9-75
+50            android:exported="true"
+50-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:35:9-32
+51            android:screenOrientation="portrait" >
+51-->C:\Users\mattr\Documents\A Univeristy of Pittsburgh\CS capstone\android\app\src\main\AndroidManifest.xml:36:9-45
+52        </activity>
+53
+54        <provider
+54-->[androidx.lifecycle:lifecycle-process:2.1.0-rc01] C:\Users\mattr\.gradle\caches\transforms-3\a7c4a8528631d45adb8263b05842e4dc\transformed\jetified-lifecycle-process-2.1.0-rc01\AndroidManifest.xml:23:9-27:43
+55            android:name="androidx.lifecycle.ProcessLifecycleOwnerInitializer"
+55-->[androidx.lifecycle:lifecycle-process:2.1.0-rc01] C:\Users\mattr\.gradle\caches\transforms-3\a7c4a8528631d45adb8263b05842e4dc\transformed\jetified-lifecycle-process-2.1.0-rc01\AndroidManifest.xml:24:13-79
+56            android:authorities="org.tensorflow.lite.examples.transfer.lifecycle-process"
+56-->[androidx.lifecycle:lifecycle-process:2.1.0-rc01] C:\Users\mattr\.gradle\caches\transforms-3\a7c4a8528631d45adb8263b05842e4dc\transformed\jetified-lifecycle-process-2.1.0-rc01\AndroidManifest.xml:25:13-69
+57            android:exported="false"
+57-->[androidx.lifecycle:lifecycle-process:2.1.0-rc01] C:\Users\mattr\.gradle\caches\transforms-3\a7c4a8528631d45adb8263b05842e4dc\transformed\jetified-lifecycle-process-2.1.0-rc01\AndroidManifest.xml:26:13-37
+58            android:multiprocess="true" />
+58-->[androidx.lifecycle:lifecycle-process:2.1.0-rc01] C:\Users\mattr\.gradle\caches\transforms-3\a7c4a8528631d45adb8263b05842e4dc\transformed\jetified-lifecycle-process-2.1.0-rc01\AndroidManifest.xml:27:13-40
+59    </application>
+60
+61</manifest>

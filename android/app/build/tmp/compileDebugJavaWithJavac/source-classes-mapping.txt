@@ -1,0 +1,36 @@
+org/tensorflow/lite/examples/transfer/DataBindingTriggerClass.java
+ org.tensorflow.lite.examples.transfer.DataBindingTriggerClass
+org/tensorflow/lite/examples/transfer/ChangePrivacy.java
+ org.tensorflow.lite.examples.transfer.ChangePrivacy
+ org.tensorflow.lite.examples.transfer.ChangePrivacy$1
+ org.tensorflow.lite.examples.transfer.ChangePrivacy$2
+org/tensorflow/lite/examples/transfer/ActivityRecognizer.java
+ org.tensorflow.lite.examples.transfer.ActivityRecognizer
+ org.tensorflow.lite.examples.transfer.ActivityRecognizer$1
+ org.tensorflow.lite.examples.transfer.Mode
+org/tensorflow/lite/examples/transfer/SensorData.java
+ org.tensorflow.lite.examples.transfer.SensorData
+org/tensorflow/lite/examples/transfer/GraphView.java
+ org.tensorflow.lite.examples.transfer.GraphView
+org/tensorflow/lite/examples/transfer/BuildConfig.java
+ org.tensorflow.lite.examples.transfer.BuildConfig
+org/tensorflow/lite/examples/transfer/Classification.java
+ org.tensorflow.lite.examples.transfer.Classification
+org/tensorflow/lite/examples/transfer/ActivityRecognitionApplication.java
+ org.tensorflow.lite.examples.transfer.ActivityRecognitionApplication
+org/tensorflow/lite/examples/transfer/MainActivity.java
+ org.tensorflow.lite.examples.transfer.MainActivity
+ org.tensorflow.lite.examples.transfer.MainActivity$1
+ org.tensorflow.lite.examples.transfer.MainActivity$2
+ org.tensorflow.lite.examples.transfer.MainActivity$3
+ org.tensorflow.lite.examples.transfer.MainActivity$4
+ org.tensorflow.lite.examples.transfer.MainActivity$5
+ org.tensorflow.lite.examples.transfer.MainActivity$6
+ org.tensorflow.lite.examples.transfer.MainActivity$7
+ org.tensorflow.lite.examples.transfer.MainActivity$8
+org/tensorflow/lite/examples/transfer/PopUp.java
+ org.tensorflow.lite.examples.transfer.PopUp
+ org.tensorflow.lite.examples.transfer.PopUp$1
+ org.tensorflow.lite.examples.transfer.PopUp$2
+org/tensorflow/lite/examples/transfer/TransferLearningModelWrapper.java
+ org.tensorflow.lite.examples.transfer.TransferLearningModelWrapper
