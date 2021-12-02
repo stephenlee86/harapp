@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
   static final String log_tag = "MainActivityClass";
   static int log_count = 1;
   SensorData sensorData;
-  ActivityRecognizer activityRecognizer;
+  DataModels dataModels;
   Classification classA = new Classification ("class A", 0);
   Classification classB = new Classification ("class B", 0);
 
@@ -55,12 +55,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
   Button editprivacyButton;
   Button startButton;
   Button stopButton;
-  Button displayGraphButton;
+  Button viewSampleDataButton;
   TextView classATextView;
   TextView classBTextView;
   TextView classAInstanceCountTextView;
   TextView classBInstanceCountTextView;
   TextView lossValueTextView;
+  TextView samplesCollectedTextView;
   Spinner optionSpinner;
   Spinner classSpinner;
   Vibrator vibrator;
@@ -71,18 +72,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Log.d(log_tag + log_count, "executing onCreate method");
     log_count += 1;
     super.onCreate(savedInstanceState);
-    activityRecognizer = new ActivityRecognizer ("ar_model", 0.75);
     setContentView(R.layout.activity_main);
 
 
     vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-    intent = new Intent (MainActivity.this, GraphView.class);
     startButton = (Button) findViewById(R.id.buttonStart);
     stopButton = (Button) findViewById(R.id.buttonStop);
     viewprivacyButton = (Button) findViewById(R.id.viewPrivacyConcerns);
     editprivacyButton = (Button) findViewById(R.id.editPrivacyData);
-    displayGraphButton = (Button) findViewById(R.id.buttonGraph);
+    viewSampleDataButton = (Button) findViewById(R.id.buttonGraph);
     stopButton.setEnabled(false);
+    viewSampleDataButton.setEnabled(true);
 
     SharedPreferences settings = getSharedPreferences("DataPreferences", 0);
     String age_data = settings.getString("AgePreference", "DefaultValueIfNotExists");
@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     classAInstanceCountTextView = (TextView)findViewById(R.id.classACountValueTextView);
     classBInstanceCountTextView = (TextView)findViewById(R.id.classBCountValueTextView);
     lossValueTextView = (TextView)findViewById(R.id.lossValueTextView);
+    samplesCollectedTextView = (TextView)findViewById(R.id.sampleCountTextView);
 
     optionSpinner = (Spinner) findViewById(R.id.optionSpinner);
     classSpinner = (Spinner) findViewById(R.id.classSpinner);
@@ -115,19 +116,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     classSpinner.setAdapter(classAdapter);
 
+    ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
+    DataModels tempDataModels = app.loadDataModels("samples.dat");
+    if (tempDataModels.getSize () > 0) {
+      dataModels = tempDataModels;
+    } else {
+      dataModels = new DataModels (new ActivityRecognizer ("ar_model", 0.75), ".dat");
+    }
+    sensorData = new SensorData ();
+    dataModels.getActivityRecognizer ().setIsRunning (false);
+    samplesCollectedTextView.setText(Integer.toString(new Integer (dataModels.getSize ())));
+
     mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
     mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     mGyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-    mSensorManager.registerListener(this, mAccelerometer, activityRecognizer.getSensorEDT ());
-    mSensorManager.registerListener(this, mGyroscope, activityRecognizer.getSensorEDT ());
+    mSensorManager.registerListener(this, mAccelerometer, dataModels.getActivityRecognizer ().getSensorEDT ());
+    mSensorManager.registerListener(this, mGyroscope, dataModels.getActivityRecognizer ().getSensorEDT ());
+
+    // Try to setup the learning model
     try{
-      activityRecognizer.setTLMW (null); //new TransferLearningModelWrapper(getApplicationContext());
+      dataModels.getActivityRecognizer ().setTLMW (null); //new TransferLearningModelWrapper(getApplicationContext()));
     } catch (IllegalStateException e) {
       Log.e (e.toString (), e.getMessage ());
+      dataModels.getActivityRecognizer ().setTLMW(null);
     }
-
-    ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
-    sensorData = app.loadSensorData("sensor.dat");
 
     optionSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
@@ -138,13 +150,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         log_count += 1;
         switch (option){
           case "Data Collection":
-            activityRecognizer.setMode (Mode.Data_Collection);
+            dataModels.getActivityRecognizer ().setMode (Mode.Data_Collection);
             break;
           case "Training":
-            activityRecognizer.setMode (Mode.Training);
+            dataModels.getActivityRecognizer ().setMode (Mode.Training);
             break;
           case "Inference":
-            activityRecognizer.setMode (Mode.Inference);
+            dataModels.getActivityRecognizer ().setMode (Mode.Inference);
             break;
           default:
             throw new IllegalArgumentException("Invalid app mode.");
@@ -163,8 +175,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
       @Override
       public void onItemSelected(AdapterView<?> parent, View view,
                                  int position, long id) {
-        activityRecognizer.setClassID ((String) parent.getItemAtPosition(position));
-        Log.d(log_tag + log_count, "executing onItemSelected method with class ID of " + activityRecognizer.getClassID () + " assigned");
+        dataModels.getActivityRecognizer ().setClassID ((String) parent.getItemAtPosition(position));
+        Log.d(log_tag + log_count, "executing onItemSelected method with class ID of " + dataModels.getActivityRecognizer ().getClassID () + " assigned");
         log_count += 1;
       }
 
@@ -202,13 +214,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startButton.setEnabled(false);
         stopButton.setEnabled(true);
         optionSpinner.setEnabled(false);
-        activityRecognizer.setIsRunning (true);
+        dataModels.getActivityRecognizer ().setIsRunning (true);
         // Uncomment following lines to load an existing model.
-       /*     if(activityRecognizer.getMode () == Mode.Inference){
+       /*     if(dataModels.getActivityRecognizer ().getMode () == Mode.Inference){
               File modelPath = getApplicationContext().getFilesDir();
-              File modelFile = new File(modelPath, activityRecognizer.getModelName ());
+              File modelFile = new File(modelPath, dataModels.getActivityRecognizer ().getModelName ());
               if(modelFile.exists()){
-                activityRecognizer.getTLMW ().loadModel(modelFile);
+                dataModels.getActivityRecognizer ().getTLMW ().loadModel(modelFile);
                 Toast.makeText(getApplicationContext(), "Model loaded.", Toast.LENGTH_SHORT).show();
               }
             }
@@ -224,29 +236,38 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startButton.setEnabled(true);
         stopButton.setEnabled(false);
         optionSpinner.setEnabled(true);
-        activityRecognizer.setIsRunning (false);
-        if(activityRecognizer.getMode () == Mode.Training){
-          if (activityRecognizer.getTLMW () != null) {
-            activityRecognizer.getTLMW ().disableTraining();
+        dataModels.getActivityRecognizer ().setIsRunning (false);
+        if(dataModels.getActivityRecognizer ().getMode () == Mode.Training){
+          if (dataModels.getActivityRecognizer ().getTLMW () != null) {
+            dataModels.getActivityRecognizer ().getTLMW ().disableTraining();
           }
           // Uncomment following lines to save the model.
           /*
             File modelPath = getApplicationContext().getFilesDir();
-            File modelFile = new File(modelPath, activityRecognizer.getModelName ());
-            activityRecognizer.getTLMW ().saveModel(modelFile);
+            File modelFile = new File(modelPath, dataModels.getActivityRecognizer ().getModelName ());
+            dataModels.getActivityRecognizer ().getTLMW ().saveModel(modelFile);
             Toast.makeText(getApplicationContext(), "Model saved.", Toast.LENGTH_SHORT).show();
            */
         }
       }
     });
 
-    displayGraphButton.setOnClickListener( new View.OnClickListener() {
+    viewSampleDataButton.setOnClickListener( new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Log.d(log_tag + log_count, "executing onClick method for display of graph");
         log_count += 1;
-        displayGraphButton.setEnabled(false);
-        activityRecognizer.setIsGraphing (true);
+
+        ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
+        app.saveDataModels(dataModels, "samples.dat");
+
+        intent = new Intent (MainActivity.this, DataSampleView.class);
+        startActivity (intent);
+
+        finish ();
+
+//        app = (ActivityRecognitionApplication) getApplication();
+//        dataModels = app.loadDataModels ("samples.dat");
       }
     });
   }
@@ -262,18 +283,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Log.d (log_tag + log_count, "executing onResume method");
     log_count += 1;
     super.onResume();
-    mSensorManager.registerListener(this, mAccelerometer, activityRecognizer.getSensorEDT ());
-    mSensorManager.registerListener(this, mGyroscope, activityRecognizer.getSensorEDT ());
+    mSensorManager.registerListener(this, mAccelerometer, dataModels.getActivityRecognizer ().getSensorEDT ());
+    mSensorManager.registerListener(this, mGyroscope, dataModels.getActivityRecognizer ().getSensorEDT ());
+    ActivityRecognitionApplication app;
+    app = (ActivityRecognitionApplication) getApplication();
+    dataModels = app.loadDataModels ("samples.dat");
   }
 
   protected void onDestroy() {
     Log.d (log_tag + log_count, "executing onDestroy method");
     log_count += 1;
     super.onDestroy();
-    if (activityRecognizer.getTLMW () != null) {
-      activityRecognizer.getTLMW ().close();
+    ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
+    app.saveDataModels(dataModels, "samples.dat");
+    if (dataModels.getActivityRecognizer ().getTLMW () != null) {
+      dataModels.getActivityRecognizer ().getTLMW ().close();
     }
-    activityRecognizer.setTLMW (null);
+    dataModels.getActivityRecognizer ().setTLMW (null);
     mSensorManager = null;
   }
 
@@ -292,17 +318,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     //Check if we have desired number of samples for sensors, if yes, the process input.
-    if(sensorData.checkSampleCount ()) {
-      if (activityRecognizer.getIsGraphing ()) {
-        ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
-        app.saveSensorData(sensorData, "sensor.dat");
-        startActivity (intent);
-// leaving out the finish call for now just in case calling finish is not necessary here and just in case calling finish loses the current state of the main activity
-//        finish ();
+    if (sensorData.checkSampleCount ()) {
+      if (dataModels.getActivityRecognizer ().getIsRunning ()) {
+          ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
+          app.saveSensorData(dataModels, sensorData);
+          samplesCollectedTextView.setText(Integer.toString(new Integer (dataModels.getSize ())));
+          processInput();
+      } else {
+          sensorData.clear ();
       }
-      processInput();
-      activityRecognizer.setIsGraphing (false);
-      displayGraphButton.setEnabled(true);
     }
   }
 
@@ -321,15 +345,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
       float[] input = toFloatArray(sensorData.getInputSignal ());
 
-      if (activityRecognizer.getIsRunning ()){
-        if(activityRecognizer.getMode () == Mode.Training){
+      if (dataModels.getActivityRecognizer ().getIsRunning ()){
+        if(dataModels.getActivityRecognizer ().getMode () == Mode.Training){
           int batchSize = 0;
-          if (activityRecognizer.getTLMW () != null) {
-            batchSize = activityRecognizer.getTLMW ().getTrainBatchSize();
+          if (dataModels.getActivityRecognizer ().getTLMW () != null) {
+            batchSize = dataModels.getActivityRecognizer ().getTLMW ().getTrainBatchSize();
           }
           if(classA.getInstanceCount () >= batchSize && classB.getInstanceCount () >= batchSize){
-            if (activityRecognizer.getTLMW () != null) {
-              activityRecognizer.getTLMW ().enableTraining((epoch, loss) -> runOnUiThread(new Runnable() {
+            if (dataModels.getActivityRecognizer ().getTLMW () != null) {
+              dataModels.getActivityRecognizer ().getTLMW ().enableTraining((epoch, loss) -> runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                   Log.d(log_tag + log_count, "executing run method");
@@ -346,23 +370,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
           }
 
         }
-        else if (activityRecognizer.getMode () == Mode.Data_Collection){
-          if (activityRecognizer.getTLMW () != null) {
-            activityRecognizer.getTLMW ().addSample(input, activityRecognizer.getClassID ());
+        else if (dataModels.getActivityRecognizer ().getMode () == Mode.Data_Collection){
+          if (dataModels.getActivityRecognizer ().getTLMW () != null) {
+            dataModels.getActivityRecognizer ().getTLMW ().addSample(input, dataModels.getActivityRecognizer ().getClassID ());
           }
-          if (activityRecognizer.getClassID ().equals(classA.getName ())) classA.incrementInstanceCount (1);
-          else if(activityRecognizer.getClassID ().equals(classB.getName ())) classB.incrementInstanceCount (1);
+          if (dataModels.getActivityRecognizer ().getClassID ().equals(classA.getName ())) classA.incrementInstanceCount (1);
+          else if(dataModels.getActivityRecognizer ().getClassID ().equals(classB.getName ())) classB.incrementInstanceCount (1);
 
           classAInstanceCountTextView.setText(Integer.toString(classA.getInstanceCount ()));
           classBInstanceCountTextView.setText(Integer.toString(classB.getInstanceCount ()));
         }
-        else if (activityRecognizer.getMode () == Mode.Inference) {
+        else if (dataModels.getActivityRecognizer ().getMode () == Mode.Inference) {
           TransferLearningModel.Prediction[] predictions = null;
-          if (activityRecognizer.getTLMW () != null) {
-            predictions = activityRecognizer.getTLMW ().predict(input);
+          if (dataModels.getActivityRecognizer ().getTLMW () != null) {
+            predictions = dataModels.getActivityRecognizer ().getTLMW ().predict(input);
           }
           // Vibrate the phone if Class B is detected.
-          if(predictions[1].getConfidence() > activityRecognizer.getThreshold ())
+          if(predictions[1].getConfidence() > dataModels.getActivityRecognizer ().getThreshold ())
             vibrator.vibrate(VibrationEffect.createOneShot(200,
                     VibrationEffect.DEFAULT_AMPLITUDE));
 

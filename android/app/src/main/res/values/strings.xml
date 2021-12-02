@@ -19,6 +19,7 @@
 
   <string name="zero_value">0.0</string>
 
+  <string name="rename_sample_label">Rename</string>
   <!-- DORIAN STRINGS -->
 
   <string name="Add_Class">Add_Class</string>

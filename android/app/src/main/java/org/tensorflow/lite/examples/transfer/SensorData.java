@@ -25,7 +25,7 @@ private List<Float> z_gyro;
 private List<Long> accel_times;
 private List<Long> gyro_times;
 
-private List<Float> input_signal;
+private static List<Float> input_signal = new ArrayList<Float>();
 
 public SensorData (int samples) {
 	this.sample_number = samples;
@@ -37,7 +37,7 @@ public SensorData (int samples) {
 	this.z_gyro = new ArrayList<Float>();
 	this.accel_times = new ArrayList<Long>();
 	this.gyro_times = new ArrayList<Long>();
-	this.input_signal = new ArrayList<Float>();
+	this.input_signal.clear ();
 }
 
 public SensorData () {
@@ -201,6 +201,46 @@ public void load (String filePath) {
 		this.gyro_times = (List<Long>)inputStream.readObject();
 		this.input_signal = (List<Float>)inputStream.readObject();
 		inputStream.close();
+	} catch (IOException ex) {
+		System.err.println(ex);
+	} catch (ClassNotFoundException ex) {
+		System.err.println(ex);
+	}
+}
+
+// saving and loading sensor data with existing output stream/input stream objects, useful for writing and reading from disc with other data objects
+
+public void save (ObjectOutputStream outputStream) {
+	try {
+		outputStream.writeObject(this.sample_number);
+		outputStream.writeObject(this.x_accel);
+		outputStream.writeObject(this.y_accel);
+		outputStream.writeObject(this.z_accel);
+		outputStream.writeObject(this.x_gyro);
+		outputStream.writeObject(this.y_gyro);
+		outputStream.writeObject(this.z_gyro);
+		outputStream.writeObject(this.accel_times);
+		outputStream.writeObject(this.gyro_times);
+		outputStream.writeObject(this.input_signal);
+	} catch (IOException ex) {
+		System.err.println(ex);
+	}
+	return;
+}
+
+public void load (ObjectInputStream inputStream) {
+	try {
+		Integer sample_number = (Integer)inputStream.readObject();
+		this.sample_number = sample_number.intValue();
+		this.x_accel = (List<Float>)inputStream.readObject();
+		this.y_accel = (List<Float>)inputStream.readObject();
+		this.z_accel = (List<Float>)inputStream.readObject();
+		this.x_gyro = (List<Float>)inputStream.readObject();
+		this.y_gyro = (List<Float>)inputStream.readObject();
+		this.z_gyro = (List<Float>)inputStream.readObject();
+		this.accel_times = (List<Long>)inputStream.readObject();
+		this.gyro_times = (List<Long>)inputStream.readObject();
+		this.input_signal = (List<Float>)inputStream.readObject();
 	} catch (IOException ex) {
 		System.err.println(ex);
 	} catch (ClassNotFoundException ex) {
