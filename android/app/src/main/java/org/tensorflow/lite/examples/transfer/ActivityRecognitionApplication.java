@@ -29,7 +29,7 @@ public class ActivityRecognitionApplication extends Application {
 		name = file_name;
 		file_path = new String (getFilesDir () + "/" + name);
 		if (sensor_data != null) {
-			sensor_data.save (file_path);
+			sensor_data.saveToCSV (file_path);
 		}
 		return;
 	}
@@ -48,22 +48,22 @@ public class ActivityRecognitionApplication extends Application {
 
 	public SensorData loadSensorData (DataModels data_models, int index) {
 		String file_path = new String (getFilesDir () + "/" + data_models.getSampleNameByIndex (index) + data_models.getFileExtension ());
-		SensorData sensor_data = new SensorData ();
-		sensor_data.load (file_path);
+		SensorData sensor_data = new SensorData ("UNKNOWN");
+		sensor_data.loadFromCSV (file_path);
 		return sensor_data;
 	}
 
 	public SensorData loadSensorData (DataModels data_models, String name) {
 		String file_path = new String (getFilesDir () + "/" + name + data_models.getFileExtension ());
-		SensorData sensor_data = new SensorData ();
-		sensor_data.load (file_path);
+		SensorData sensor_data = new SensorData ("UNKNOWN");
+		sensor_data.loadFromCSV (file_path);
 		return sensor_data;
 	}
 
 	public SensorData loadSensorData (String name) {
 		String file_path = new String (getFilesDir () + "/" + name);
-		SensorData sensor_data = new SensorData ();
-		sensor_data.load (file_path);
+		SensorData sensor_data = new SensorData ("UNKNOWN");
+		sensor_data.loadFromCSV (file_path);
 		return sensor_data;
 	}
 

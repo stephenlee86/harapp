@@ -36,6 +36,22 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/labelTextCV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        ap:cardBackgroundColor="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/sampleLabelGyroTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="TextView"
+            android:textStyle="bold"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/xGyroPlotCV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

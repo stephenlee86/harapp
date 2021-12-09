@@ -121,9 +121,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     if (tempDataModels.getSize () > 0) {
       dataModels = tempDataModels;
     } else {
-      dataModels = new DataModels (new ActivityRecognizer ("ar_model", 0.75), ".dat");
+      dataModels = new DataModels (new ActivityRecognizer ("ar_model", 0.75), ".csv");
     }
-    sensorData = new SensorData ();
+    sensorData = new SensorData (dataModels.getActivityRecognizer ().getClassID ());
     dataModels.getActivityRecognizer ().setIsRunning (false);
     samplesCollectedTextView.setText(Integer.toString(new Integer (dataModels.getSize ())));
 
@@ -176,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
       public void onItemSelected(AdapterView<?> parent, View view,
                                  int position, long id) {
         dataModels.getActivityRecognizer ().setClassID ((String) parent.getItemAtPosition(position));
+        if (sensorData.getLabelName () == null) {
+            sensorData.setLabelName (dataModels.getActivityRecognizer ().getClassID ());
+        }
         Log.d(log_tag + log_count, "executing onItemSelected method with class ID of " + dataModels.getActivityRecognizer ().getClassID () + " assigned");
         log_count += 1;
       }
@@ -265,9 +268,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         startActivity (intent);
 
         finish ();
-
-//        app = (ActivityRecognitionApplication) getApplication();
-//        dataModels = app.loadDataModels ("samples.dat");
       }
     });
   }
@@ -324,8 +324,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
           app.saveSensorData(dataModels, sensorData);
           samplesCollectedTextView.setText(Integer.toString(new Integer (dataModels.getSize ())));
           processInput();
+          sensorData.setLabelName (dataModels.getActivityRecognizer ().getClassID ());
       } else {
           sensorData.clear ();
+          sensorData.setLabelName (dataModels.getActivityRecognizer ().getClassID ());
       }
     }
   }
@@ -380,11 +382,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
           classAInstanceCountTextView.setText(Integer.toString(classA.getInstanceCount ()));
           classBInstanceCountTextView.setText(Integer.toString(classB.getInstanceCount ()));
         }
-        else if (dataModels.getActivityRecognizer ().getMode () == Mode.Inference) {
+        else if (dataModels.getActivityRecognizer ().getMode () == Mode.Inference &&
+                 dataModels.getActivityRecognizer ().getTLMW () != null) {
+
           TransferLearningModel.Prediction[] predictions = null;
-          if (dataModels.getActivityRecognizer ().getTLMW () != null) {
-            predictions = dataModels.getActivityRecognizer ().getTLMW ().predict(input);
-          }
+          predictions = dataModels.getActivityRecognizer ().getTLMW ().predict(input);
+
           // Vibrate the phone if Class B is detected.
           if(predictions[1].getConfidence() > dataModels.getActivityRecognizer ().getThreshold ())
             vibrator.vibrate(VibrationEffect.createOneShot(200,

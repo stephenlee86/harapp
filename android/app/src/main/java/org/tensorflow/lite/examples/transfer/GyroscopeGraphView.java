@@ -13,6 +13,7 @@ import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.*;
 import android.view.View;
 import android.content.Intent;
+import android.widget.TextView;
 
 public class GyroscopeGraphView extends Activity  {
   Button closeButton;
@@ -29,7 +30,10 @@ public class GyroscopeGraphView extends Activity  {
         closeButton = (Button) findViewById(R.id.closeButton);
 
         ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
-        SensorData sensorData = app.loadSensorData("data.dat");
+        SensorData sensorData = app.loadSensorData("data.csv");
+
+        TextView label = (TextView) findViewById(R.id.sampleLabelGyroTextView);
+        label.setText("Sample Label: " + sensorData.getLabelName());
 
         // initialize our XYPlot reference:
         xPlot = (XYPlot) findViewById(R.id.xGyroscopePlot);

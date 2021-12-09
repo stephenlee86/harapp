@@ -15,6 +15,7 @@ import com.androidplot.xy.*;
 import android.content.Intent;
 import android.view.View;
 import android.util.Log;
+import android.widget.TextView;
 
 public class AccelerometerGraphView extends Activity  {
   static final String log_tag = "AccelerometerGraphViewClass";
@@ -37,7 +38,10 @@ public class AccelerometerGraphView extends Activity  {
         Log.d(log_tag + log_count, "About to load in sensor data that was saved to data.dat during the data sample view activity.");
         log_count += 1;
         ActivityRecognitionApplication app = (ActivityRecognitionApplication) getApplication();
-        SensorData sensorData = app.loadSensorData("data.dat");
+        SensorData sensorData = app.loadSensorData("data.csv");
+
+        TextView label = (TextView) findViewById(R.id.sampleLabelAccelTextView);
+        label.setText("Sample Label: " + sensorData.getLabelName());
 
         // initialize our XYPlot reference:
         Log.d(log_tag + log_count, "About to Creating the plot objects from the sensor data.");
@@ -48,12 +52,9 @@ public class AccelerometerGraphView extends Activity  {
 
         // turn the above arrays into XYSeries':
         // (Y_VALS_ONLY means use the element index as the x value)
-        List<Float> testDataY = new ArrayList<Float>();
-        for (int i = 0; i < 400; i++)
-            testDataY.add(new Float((float)i/20.0));
         List<Long> accelTimeInMilliseconds = sensorData.getElapsedAccelerometerTimeInDeciseconds ();
         XYSeries series1 = new SimpleXYSeries (accelTimeInMilliseconds, sensorData.getXAccelerometerList (),  "accelerometer x data");
-        XYSeries series2 = new SimpleXYSeries (accelTimeInMilliseconds, testDataY, /*sensorData.getYAccelerometerList (),*/  "accelerometer y data");
+        XYSeries series2 = new SimpleXYSeries (accelTimeInMilliseconds, sensorData.getYAccelerometerList (),  "accelerometer y data");
         XYSeries series3 = new SimpleXYSeries (accelTimeInMilliseconds, sensorData.getZAccelerometerList (),  "accelerometer z data");
 
         // create formatters to use for drawing a series using LineAndPointRenderer

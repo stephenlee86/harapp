@@ -67,7 +67,6 @@ public class DataSampleView extends Activity
         Log.d(log_tag + log_count, "Loaded DataModels object from file successfully!");
         log_count += 1;
 
-//        adapter = new SampleAdapter (generateSampleList ());
         adapter = new SampleAdapter(dataModels, R.layout.rv_sample_row, this);
         rv = (RecyclerView)findViewById(R.id.sample_recyclerview);
         rv.setLayoutManager (new LinearLayoutManager (this));
@@ -87,7 +86,7 @@ public class DataSampleView extends Activity
         app.saveDataModels (dataModels, "samples.dat");
         Log.d(log_tag + log_count, "Successfully saved the DataModels object to disc before launching graph viewing activity!");
         log_count += 1;
-        app.saveSensorData (sensorData, "data.dat");
+        app.saveSensorData (sensorData, "data.csv");
         Log.d(log_tag + log_count, "Successfully saved the SensorData object to disc before launching graph viewing activity!");
         log_count += 1;
         intent = new Intent (DataSampleView.this, AccelerometerGraphView.class);
