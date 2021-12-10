@@ -34,6 +34,16 @@ Below are steps to follow to set up Android Studio Environment
 4. Select desired Android build for device and click "Next"
 5. Modify advanced settings as necessary, then click "Finish"
 
+#### Using App on mobile device Over USB
+1. Ensure that the phone's developers mode is activited
+2. download the  appriopraite driver in your phone to allow UDB debugging
+   *provide more link to specific manufactures, link to google sites, samsung package
+3.*edit AVD envirmoent
+Wirless debugging, provide links and provide commands to congigure over network
+
+### Network data extraction
+*give what the app provides
+
 #### Project Tree Structure Overview
 
 * All Java Classes should be placed in "harapp/android/app/src/main/java/org/tensorflow/lite/examples/transfer/"
