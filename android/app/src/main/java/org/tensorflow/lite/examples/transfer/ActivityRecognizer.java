@@ -36,7 +36,7 @@ public ActivityRecognizer (String mn, double t, int edt) {
 	this.is_graphing = false;
 	this.tl_model = null;
 	this.class_id = null;
-	this.mode = null;
+	this.mode = Mode.Data_Collection;
 	this.event_delay_time = edt;
 }
 
@@ -141,12 +141,15 @@ public void load (String filePath) {
 		switch ((String)inputStream.readObject()) {
 			case "Data_Collection": {
 				this.mode = Mode.Data_Collection;
+				break;
 			}
 			case "Inference": {
 				this.mode = Mode.Inference;
+				break;
 			}
 			case "Training": {
 				this.mode = Mode.Training;
+				break;
 			}
 		}
 		inputStream.close();
@@ -171,15 +174,78 @@ public void save (String filePath) {
 		switch (this.mode) {
 			case Data_Collection: {
 				outputStream.writeObject("Data_Collection");
+				break;
 			}
 			case Inference: {
 				outputStream.writeObject("Inference");
+				break;
 			}
 			case Training: {
 				outputStream.writeObject("Training");
+				break;
 			}
 		}
 		outputStream.close();
+	} catch (IOException ex) {
+		System.err.println(ex);
+	}
+	return;
+}
+
+// methods for loading from disc and saving to disc with already created input and output stream objects
+
+public void load (ObjectInputStream inputStream) {
+	try {
+		this.model_name = (String)inputStream.readObject();
+		this.threshold = (Double)inputStream.readObject();
+		this.is_running = (Boolean)inputStream.readObject();
+		this.is_graphing = (Boolean)inputStream.readObject();
+		this.class_id = (String)inputStream.readObject();
+		this.event_delay_time = (Integer)inputStream.readObject();
+		switch ((String)inputStream.readObject()) {
+			case "Data_Collection": {
+				this.mode = Mode.Data_Collection;
+				break;
+			}
+			case "Inference": {
+				this.mode = Mode.Inference;
+				break;
+			}
+			case "Training": {
+				this.mode = Mode.Training;
+				break;
+			}
+		}
+	} catch (IOException ex) {
+		System.err.println(ex);
+	} catch (ClassNotFoundException ex)
+	{
+		System.err.println(ex);
+	}
+}
+
+public void save (ObjectOutputStream outputStream) {
+	try {
+		outputStream.writeObject(this.model_name);
+		outputStream.writeObject(this.threshold);
+		outputStream.writeObject(this.is_running);
+		outputStream.writeObject(this.is_graphing);
+		outputStream.writeObject(this.class_id);
+		outputStream.writeObject(this.event_delay_time);
+		switch (this.mode) {
+			case Data_Collection: {
+				outputStream.writeObject("Data_Collection");
+				break;
+			}
+			case Inference: {
+				outputStream.writeObject("Inference");
+				break;
+			}
+			case Training: {
+				outputStream.writeObject("Training");
+				break;
+			}
+		}
 	} catch (IOException ex) {
 		System.err.println(ex);
 	}
