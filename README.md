@@ -4,18 +4,42 @@
 The aim of the project is to provide an end-to-end solution for on-device training, inference and data collection for activity recongition based on <a href="https://github.com/tensorflow/examples/tree/master/lite/examples/model_personalization">TFlite Transfer Learning Pipeline</a>. The corresponding blog post is available <a href="https://aqibsaeed.github.io/on-device-activity-recognition">here</a>. 
 
 #### Tools Required
-* Python 3.5+
-* Tensorflow 2.0.0rc0
-* Numpy
-* Pillow 
-* Scipy
-* Android Studio
+* [Python 3.5+](https://www.python.org)
+* [Tensorflow 2.0.0rc0](https://www.tensorflow.org)
+* [Numpy](https://numpy.org/)
+* [Pillow](https://pypi.org/project/Pillow/)
+* [Scipy](https://scipy.org)
+* [Android Studio](https://developer.android.com/studio/install)
 
-#### Contribute (Future Work)
-* Add support for pairing the app with a smartwatch and fine-tuning the model for a wearable device.
-* Port SoundNet, add functionality for audio recording and tflite model conversion for handling dynamic size input.
+#### Getting Started
 
-If you are interested in contributing to this project, please submit a pull request or reach out at: aqibsaeed@protonmail.com.
+Begin by installing Android Studio for your device and download the source code from this repositority. For all other softwares and APIs, read appropriate documentation linked above to get a base level of understanding for this project.
+
+#### Using Android Studio
+
+Below are steps to follow to set up Android Studio Environment
+1. Download Android Studio
+2. Launch Android Studio
+3. Click "Open Folder"
+    * Ensure you open the folder from "android" in the project tree 
+4. To build the application, Navigate to Build -> Make Project
+5. To run the application, Navigate to Run -> Run '$NAME'
+    * Running the application can be accomplished through the use of an Android Virtual Device (AVD) or a physical device.
+
+#### Establishing an AVD
+
+1. Navigate to Tools -> AVD Manager
+2. Select "Create Virtual Device"
+3. Select desired Android Device and click "Next"
+4. Select desired Android build for device and click "Next"
+5. Modify advanced settings as necessary, then click "Finish"
+
+#### Project Tree Structure Overview
+
+* All Java Classes should be placed in "harapp/android/app/src/main/java/org/tensorflow/lite/examples/transfer/"
+* The Android Manifest in located in "harapp/android/app/src/main/"
+* All files pertaining to TensorFlow Lite Tranfer are located within "harapp/tfltransfer/"
+* All resources used for XML files (strings, styles, colors etc.) are located in their respective folders at "harapp/android/app/src/main/res/"
 
 #### Dataset 
 The <a href="https://archive.ics.uci.edu/ml/datasets/Heterogeneity+Activity+Recognition">Heterogeneity Activity Recognition dataset</a> is used for model pretraining. If you use this in your research, please cite their work and check the license. 
