@@ -135,6 +135,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     // Try to setup the learning model
     try{
+      // The instantiation of the TransferLearningModelWrapper object below is commented out because the
+      // code currently seg-faults just after loading the file for the "head" layer of the classification
+      // neural-net. Restore this code once we have a new head file.
       dataModels.getActivityRecognizer ().setTLMW (null); //new TransferLearningModelWrapper(getApplicationContext()));
     } catch (IllegalStateException e) {
       Log.e (e.toString (), e.getMessage ());

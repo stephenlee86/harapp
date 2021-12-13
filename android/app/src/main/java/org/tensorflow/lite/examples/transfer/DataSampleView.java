@@ -131,9 +131,6 @@ public class DataSampleView extends Activity
         log_count += 1;
         DeleteSamplePopUp popUpClass = new DeleteSamplePopUp(dataModels, sample, getFilesDir ().toString());
         popUpClass.showPopupWindow(v);
-        rv.setAdapter (null);
-        rv.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         sample = null;
         displayGraphButton.setEnabled (false);
@@ -141,6 +138,8 @@ public class DataSampleView extends Activity
         deleteSampleButton.setEnabled (false);
         markAsTrainingButton.setEnabled (false);
         markAsInferenceButton.setEnabled (false);
+
+        rv.invalidate();
       }
     });
 
@@ -151,9 +150,6 @@ public class DataSampleView extends Activity
         log_count += 1;
         DeleteAllPopUp popUpClass = new DeleteAllPopUp(dataModels, getFilesDir ().toString(), "samples.dat");
         popUpClass.showPopupWindow(v);
-
-        rv.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
 
         sample = null;
         displayGraphButton.setEnabled (false);
@@ -215,13 +211,27 @@ public class DataSampleView extends Activity
         sensorData = app.loadSensorData (dataModels, sample);
     }
 
+    protected void onResume()
+    {
+        super.onResume();
+        rv.invalidate();
+    }
+
+    public void onWindowFocusChanged(boolean hasFocus)
+    {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus)
+        {
+            adapter.notifyDataSetChanged();
+        }
+    }
     private List<SampleViewModel> generateSampleList() {
         List<SampleViewModel> sampleViewModelList = new ArrayList<>();
 
         for (int i = 0; i < dataModels.getSize (); i++) {
             sampleViewModelList.add(new SampleViewModel(dataModels.getSampleNameByIndex (i)));
         }
-    
+
         return sampleViewModelList;
     }
 }
