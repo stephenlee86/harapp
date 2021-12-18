@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     setContentView(R.layout.activity_main);
 
 
+
     vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
     intent = new Intent (MainActivity.this, GraphView.class);
     startButton = (Button) findViewById(R.id.buttonStart);
