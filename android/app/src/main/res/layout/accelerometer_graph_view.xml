@@ -1,0 +1,107 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ap="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_fill"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="20dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="20dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/nextButtonCV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        ap:cardBackgroundColor="#00FFFFFF">
+
+        <LinearLayout
+            android:id="@+id/nextButtonHLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <Space
+                android:id="@+id/nextButtonSpacer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+            <Button
+                android:id="@+id/nextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Next" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/labelTextCV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        ap:cardBackgroundColor="@color/colorPrimaryDark">
+
+        <TextView
+            android:id="@+id/sampleLabelAccelTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:text="TextView"
+            android:textStyle="bold"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/xPlotCV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <com.androidplot.xy.XYPlot
+            android:id="@+id/xAccelerometerPlot"
+            style="@style/APDefacto.Dark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ap:domainTitle="Time"
+            ap:lineLabelRotationBottom="-45"
+            ap:lineLabels="left|bottom"
+            ap:rangeTitle="Signal Value"
+            ap:title="Accelerometer X" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/yPlotCV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <com.androidplot.xy.XYPlot
+            android:id="@+id/yAccelerometerPlot"
+            style="@style/APDefacto.Dark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ap:domainTitle="Time"
+            ap:lineLabelRotationBottom="-45"
+            ap:lineLabels="left|bottom"
+            ap:rangeTitle="Signal Value"
+            ap:title="Accelerometer Y" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/zPlotCV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <com.androidplot.xy.XYPlot
+            android:id="@+id/zAccelerometerPlot"
+            style="@style/APDefacto.Dark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ap:domainTitle="Time"
+            ap:lineLabelRotationBottom="-45"
+            ap:lineLabels="left|bottom"
+            ap:rangeTitle="Signal Value"
+            ap:title="Accelerometer Z" />
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

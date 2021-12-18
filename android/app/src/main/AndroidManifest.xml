@@ -25,13 +25,23 @@
       </intent-filter>
     </activity>
     <activity
-        android:name="org.tensorflow.lite.examples.transfer.GraphView"
+        android:name="org.tensorflow.lite.examples.transfer.AccelerometerGraphView"
         android:exported="true"
         android:screenOrientation="portrait">
     </activity>
-      
+    <activity
+        android:name="org.tensorflow.lite.examples.transfer.GyroscopeGraphView"
+        android:exported="true"
+        android:screenOrientation="portrait">
+    </activity>
+
       <activity
         android:name="org.tensorflow.lite.examples.transfer.ChangePrivacy"
+        android:exported="true"
+        android:screenOrientation="portrait">
+    </activity>
+    <activity
+        android:name="org.tensorflow.lite.examples.transfer.DataSampleView"
         android:exported="true"
         android:screenOrientation="portrait">
     </activity>
